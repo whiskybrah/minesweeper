@@ -52,6 +52,19 @@ class Minesweeper:
         self.thirdLabel = Label(master, text="Flags: " + str(self.totalFlags))
         self.thirdLabel.grid(row=11, column=4, columnspan=5)
 
+    def tileScan(self, x, stack):
+        try:
+            if self.cells[x][2] == 0:
+                if self.cells[x][5] == 0:
+                    self.cells[x][0].config(image=self.clickedTile)
+                    stack.append(x)
+                else:
+                    self.cells[x][0].config(image=self.noTile[self.cells[x][5] - 1])
+                self.cells[x][2] = 1
+                self.clicked += 1
+        except KeyError:
+            pass
+
     def leftClickWrapper(self, key):
         return lambda Button: \
             self.leftClick(self.cells[key])
