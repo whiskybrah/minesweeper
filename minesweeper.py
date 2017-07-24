@@ -37,11 +37,11 @@ class Minesweeper:
                 mineCount = 1
                 self.totalMines += 1
             self.cells[x] = [Button(master, image=setGraphics), mineCount, 0, x, [coordX, coordY], 0]
+
             coordY += 1
             if coordY == 10:
                 coordX += 1
                 coordY = 0
-
 
         for x in self.cells:
             self.cells[x][0].grid(row=self.cells[x][4][0], column=self.cells[x][4][1])
@@ -52,6 +52,35 @@ class Minesweeper:
         self.thirdLabel = Label(master, text="Flags: " + str(self.totalFlags))
         self.thirdLabel.grid(row=11, column=4, columnspan=5)
 
+    def leftClickWrapper(self, key):
+        return lambda Button: \
+            self.leftClick(self.cells[key])
+
+    def rightClickWrapper(self, key):
+        return lambda Button: \
+            self.rightClick(self.cells[key])
+
+    def rightClick(self, buttonDt):
+        if buttonDt[2] == 0:
+            buttonDt[2] = 2
+            buttonDt[0].config(image=self.flagTile)
+            buttonDt[0].unbind('<Button-1>')
+            if buttonDt[1] == 1:
+                self.correctFlags += 1
+            self.totalFlags += 1
+            self.flagUpdate()
+        elif buttonDt[2] == 2:
+            buttonDt[0].config(image=self.plainTile)
+            buttonDt[0].bind('<Button-1>', self.leftClickWrapper(buttonDt[3]))
+            buttonDt[2] = 0
+            if buttonDt[1] == 1:
+                self.correctFlags -= 1
+            self.totalFlags -= 1
+            self.flagUpdate()
+
+    def flagUpdate(self):
+        self.thirdLabel.config(text="Flags: " + str(self.totalFlags))
+
     def lose(self):
         msg = "Game Over", "You Lose!"
         global root
@@ -61,6 +90,8 @@ class Minesweeper:
         msg = "Congratulations!", "You Win!"
         global root
         root.destroy()
+
+
 
 def main():
     global root
