@@ -87,6 +87,39 @@ class Minesweeper:
         except KeyError:
             pass
 
+    def leftClick(self, buttonDt):
+        if buttonDt[1] == 1:
+            for key in self.cells:
+                if self.cells[key][1] != 1 and self.cells[key][2] == 2:
+                    self.cells[key][0].config(image=self.wrongTile)
+                if self.cells[key][1] == 1 and self.cells[key][2] != 2:
+                    self.cells[key][0].config(image=self.mineTile)
+            self.lose()
+        else:
+            if buttonDt[5] == 0:
+                buttonDt[0].config(image=self.clickedTile)
+                self.emptyClear(buttonDt[3])
+            else:
+                buttonDt[0].config(image=self.noTile[buttonDt[5] - 1])
+            if buttonDt[2] != 1:
+                buttonDt[2] = 1
+                self.clicked += 1
+            if self.clicked == 100 - self.totalMines:
+                self.win()
+
+    def emptyClear(self, key):
+        stack = deque([key])
+        while len(stack) != 0:
+            kCheck = stack.popleft()
+            self.tileScan(kCheck + 1, stack)
+            self.tileScan(kCheck - 1, stack)
+            self.tileScan(kCheck + 9, stack)
+            self.tileScan(kCheck - 9, stack)
+            self.tileScan(kCheck + 10, stack)
+            self.tileScan(kCheck - 10, stack)
+            self.tileScan(kCheck + 11, stack)
+            self.tileScan(kCheck - 11, stack)
+
     def leftClickWrapper(self, key):
         return lambda Button: \
             self.leftClick(self.cells[key])
