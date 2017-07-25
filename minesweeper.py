@@ -48,12 +48,31 @@ class Minesweeper:
         for x in self.cells:
             self.cells[x][0].grid(row=self.cells[x][4][0], column=self.cells[x][4][1])
 
-
         self.secondLabel = Label(master, text="Mines: " + str(self.totalMines))
         self.secondLabel.grid(row=11, column=0, columnspan=5)
 
         self.thirdLabel = Label(master, text="Flags: " + str(self.totalFlags))
         self.thirdLabel.grid(row=11, column=4, columnspan=5)
+
+        for x in self.cells:
+            mineClose = 0
+            if self.mineCheck(key + 1):
+                mineClose = mineClose + 1
+            if self.mineCheck(key - 1):
+                mineClose = mineClose + 1
+            if self.mineCheck(key + 9):
+                mineClose = mineClose + 1
+            if self.mineCheck(key - 9):
+                mineClose = mineClose + 1
+            if self.mineCheck(key + 10):
+                mineClose = mineClose + 1
+            if self.mineCheck(key - 10):
+                mineClose = mineClose + 1
+            if self.mineCheck(key + 11):
+                mineClose = mineClose + 1
+            if self.mineCheck(key - 11):
+                mineClose = mineClose + 1
+            self.cells[x][5] = mineClose
 
     def tileScan(self, x, stack):
         try:
