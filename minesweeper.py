@@ -48,6 +48,7 @@ class Minesweeper:
         for x in self.cells:
             self.cells[x][0].grid(row=self.cells[x][4][0], column=self.cells[x][4][1])
 
+
         self.secondLabel = Label(master, text="Mines: " + str(self.totalMines))
         self.secondLabel.grid(row=11, column=0, columnspan=5)
 
@@ -74,6 +75,13 @@ class Minesweeper:
     def rightClickWrapper(self, key):
         return lambda Button: \
             self.rightClick(self.cells[key])
+
+    def mineCheck(self, x):
+        try:
+            if self.cells[x][1] == 1:
+                return True
+        except KeyError:
+            pass
 
     def rightClick(self, buttonDt):
         if buttonDt[2] == 0:
