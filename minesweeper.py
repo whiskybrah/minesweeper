@@ -29,15 +29,17 @@ class Minesweeper:
         self.cells = dict({})
         coordY = 0
         coordX = 1
-
-        for x in range(0, 100): # no. of cells
+        gridSize = 100 # first variable to check for grid size
+        uniformCheck = 0.1
+        for key in range(0, gridSize): # no. of cells
             mineCount = 0
-            setGraphics = self.plainTile
-            if random.uniform(0.0, 1.0) < 0.1:
+            if random.uniform(0.0, 1.0) < uniformCheck:
                 mineCount = 1
                 self.totalMines += 1
-            self.cells[x] = [Button(master, image=setGraphics), mineCount, 0, x, [coordX, coordY], 0]
-
+            self.cells[key] = [Button(master, image=self.plainTile), mineCount, 0, key, [coordX, coordY], 0]
+            self.cells[key][0].bind('<Button-3>', self.rightClickWrapper(key)) # Button 3 = right click
+                                                                           # (because button 2 is scroll)
+            self.cells[key][0].bind('<Button-1>', self.leftClickWrapper(key))  # Button 1 = left click
             coordY += 1
             if coordY == 10:
                 coordX += 1
