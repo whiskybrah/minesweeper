@@ -56,21 +56,21 @@ class Minesweeper:
 
         for x in self.cells:
             mineClose = 0
-            if self.mineCheck(key + 1):
+            if self.mineCheck(x + 1):
                 mineClose = mineClose + 1
-            if self.mineCheck(key - 1):
+            if self.mineCheck(x - 1):
                 mineClose = mineClose + 1
-            if self.mineCheck(key + 9):
+            if self.mineCheck(x + 9):
                 mineClose = mineClose + 1
-            if self.mineCheck(key - 9):
+            if self.mineCheck(x - 9):
                 mineClose = mineClose + 1
-            if self.mineCheck(key + 10):
+            if self.mineCheck(x + 10):
                 mineClose = mineClose + 1
-            if self.mineCheck(key - 10):
+            if self.mineCheck(x - 10):
                 mineClose = mineClose + 1
-            if self.mineCheck(key + 11):
+            if self.mineCheck(x + 11):
                 mineClose = mineClose + 1
-            if self.mineCheck(key - 11):
+            if self.mineCheck(x - 11):
                 mineClose = mineClose + 1
             self.cells[x][5] = mineClose
 
