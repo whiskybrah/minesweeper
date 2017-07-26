@@ -104,7 +104,7 @@ class Minesweeper:
             if buttonDt[2] != 1:
                 buttonDt[2] = 1
                 self.clicked += 1
-            if self.clicked == 100 - self.totalMines:
+            if self.clicked == 100 - self.totalMines: # Could use gridSize instead of fixed int length 100
                 self.win()
 
     def emptyClear(self, key):
@@ -158,14 +158,20 @@ class Minesweeper:
 
     def lose(self):
         msg = "Game Over", "You Lose!"
-        global root
-        root.destroy()
+        msg = 'You lost! Play again?'
+        answer = askquestion('play again? ', msg)
+        if answer == 'yes':
+            self.reset() # yet to be added
+        else:
+            self.quit()
 
     def win(self):
         msg = "Congratulations!", "You Win!"
-        global root
-        root.destroy()
+        self.quit()
 
+    def quit(self):
+        global root
+        root.quit()
 
 
 def main():
