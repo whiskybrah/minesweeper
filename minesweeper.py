@@ -7,21 +7,24 @@ from collections import deque
 class Minesweeper:
     def __init__(self, game):
         # Load standard tiles
-        self.noTile = []
+        self.noTile = [] # create an empty list then populate later on
         self.flagTile = PhotoImage(file="tiles/flagTile.gif")
         self.mineTile = PhotoImage(file="tiles/mineTile.gif")
         self.plainTile = PhotoImage(file="tiles/plainTile.gif")
         self.wrongTile = PhotoImage(file="tiles/wrongTile.gif")
         self.clickedTile = PhotoImage(file="tiles/clickedTile.gif")
-        # Load numbered tiles 1-8 through loop
+        # Load numbered tiles 1-8 through loop and add to list
         for tileNum in range(1, 9):
             self.noTile.append(PhotoImage(file="tiles/t" + str(tileNum) + ".gif"))
 
+        # create a new Frame widget, used for grouping and organising other widgets
         master = Frame(game)
         master.pack()
+        # create a heading label for frame
         self.firstLabel = Label(master, text="Minesweeper v1")
         self.firstLabel.grid(row=0, column=0, columnspan=10)
 
+        # initialise main variables
         self.totalMines = 0
         self.clicked = 0
         self.totalFlags = 0
@@ -36,11 +39,13 @@ class Minesweeper:
             if random.uniform(0.0, 1.0) < uniformCheck:
                 mineCount = 1
                 self.totalMines += 1
+            # store cell behaviour within list to be accessed
             self.cells[key] = [Button(master, image=self.plainTile), mineCount, 0, key, [coordX, coordY], 0]
             self.cells[key][0].bind('<Button-3>', self.rightClickWrapper(key)) # Button 3 = right click
                                                                            # (because button 2 is scroll)
             self.cells[key][0].bind('<Button-1>', self.leftClickWrapper(key))  # Button 1 = left click
             coordY += 1
+            # 10x10
             if coordY == 10:
                 coordX += 1
                 coordY = 0
@@ -53,6 +58,7 @@ class Minesweeper:
         self.thirdLabel = Label(master, text="Flags: " + str(self.totalFlags))
         self.thirdLabel.grid(row=11, column=4, columnspan=5)
 
+        # uses similar check from emptyClear function
         for x in self.cells:
             mineClose = 0
             if self.mineCheck(x + 1):
@@ -107,16 +113,25 @@ class Minesweeper:
                 self.win()
 
     def emptyClear(self, key):
+        # create a double-ended queue for use of removing/adding elements from either end, very useful
         stack = deque([key])
         while len(stack) != 0:
             kCheck = stack.popleft()
+            # right tile
             self.tileScan(kCheck + 1, stack)
+            # left tile
             self.tileScan(kCheck - 1, stack)
+            # bottom right tile
             self.tileScan(kCheck + 9, stack)
+            # top right tile
             self.tileScan(kCheck - 9, stack)
+            # bottom middle tile
             self.tileScan(kCheck + 10, stack)
+            # top middle tile
             self.tileScan(kCheck - 10, stack)
+            # bottom left tile
             self.tileScan(kCheck + 11, stack)
+            # top left tile
             self.tileScan(kCheck - 11, stack)
 
     def leftClickWrapper(self, key):
