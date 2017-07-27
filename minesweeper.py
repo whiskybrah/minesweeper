@@ -50,7 +50,6 @@ class Minesweeper:
 
         self.secondLabel = Label(master, text="Mines: " + str(self.totalMines))
         self.secondLabel.grid(row=11, column=0, columnspan=5)
-
         self.thirdLabel = Label(master, text="Flags: " + str(self.totalFlags))
         self.thirdLabel.grid(row=11, column=4, columnspan=5)
 
@@ -157,9 +156,8 @@ class Minesweeper:
         self.thirdLabel.config(text="Flags: " + str(self.totalFlags))
 
     def lose(self):
-        msg = "Game Over", "You Lose!"
         msg = 'You lost! Play again?'
-        answer = askquestion('play again? ', msg)
+        answer = askquestion('Game Over', msg)
         if answer == 'yes':
             self.reset() # yet to be added
         else:
@@ -174,12 +172,37 @@ class Minesweeper:
         root.quit()
 
 
+def testCommand():
+    print("Test output!")
+
+
 def main():
     global root
     root = Tk()
     root.title("Minesweeper")
     ms = Minesweeper(root)
+    menubar = Menu(root)
+
+    # create a pulldown menu
+    filemenu = Menu(menubar, tearoff=0)
+    filemenu.add_command(label="Standard", command=testCommand)
+    filemenu.add_command(label="Hexagon", command=testCommand)
+    filemenu.add_command(label="Colour", command=testCommand)
+    filemenu.add_separator()
+    filemenu.add_command(label="Exit", command=root.quit)
+    menubar.add_cascade(label="Game Type", menu=filemenu)
+    # create pulldown menu for help
+    helpmenu = Menu(menubar, tearoff=0)
+    helpmenu.add_command(label="About", command=testCommand)
+    menubar.add_cascade(label="Help", menu=helpmenu)
+
+
+    # display the menu
+    root.config(menu=menubar)
+    # Window application loop
     root.mainloop()
+
+
 
 
 if __name__ == "__main__":
