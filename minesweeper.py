@@ -8,14 +8,14 @@ class Minesweeper:
     def __init__(self, game):
         # Load standard tiles
         self.noTile = [] # create an empty list then populate later on
-        self.flagTile = PhotoImage(file="tiles/flagTile.gif")
-        self.mineTile = PhotoImage(file="tiles/mineTile.gif")
-        self.plainTile = PhotoImage(file="tiles/plainTile.gif")
-        self.wrongTile = PhotoImage(file="tiles/wrongTile.gif")
-        self.clickedTile = PhotoImage(file="tiles/clickedTile.gif")
+        self.flagTile = PhotoImage(file="tiles/flagTile.png")
+        self.mineTile = PhotoImage(file="tiles/mineTile.png")
+        self.plainTile = PhotoImage(file="tiles/plainTile.png")
+        self.wrongTile = PhotoImage(file="tiles/wrongTile.png")
+        self.clickedTile = PhotoImage(file="tiles/clickedTile.png")
         # Load numbered tiles 1-8 through loop and add to list
         for tileNum in range(1, 9):
-            self.noTile.append(PhotoImage(file="tiles/t" + str(tileNum) + ".gif"))
+            self.noTile.append(PhotoImage(file="tiles/t" + str(tileNum) + ".png"))
 
         # create a new Frame widget, used for grouping and organising other widgets
         master = Frame(game)
